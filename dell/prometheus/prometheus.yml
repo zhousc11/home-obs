@@ -1,0 +1,218 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 4s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: "home-network"
+
+scrape_configs:
+  # Prometheus 自身
+  - job_name: "prometheus"
+    scrape_interval: 30s
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # ICMP 拨测：网关 / 公网对照 / 自有公网服务器 IP
+  - job_name: "blackbox_icmp"
+    metrics_path: /probe
+    params:
+      module: [icmp_v4]
+    static_configs:
+      - targets:
+          - 192.168.66.1        # 家庭网关 (er-x)
+          - 119.29.29.29        # 公网对照
+          - 118.31.170.151      # 自有公网服务器
+        labels:
+          probe_layer: "icmp"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115   # 树莓派 blackbox
+
+  # TCP 443 拨测：自有公网服务器域名 (检测 DNS + TCP 是否通)
+  - job_name: "blackbox_tcp"
+    metrics_path: /probe
+    params:
+      module: [tcp_443]
+    static_configs:
+      - targets:
+          - remote.zhoushicheng.cn:443
+        labels:
+          probe_layer: "tcp"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  # HTTPS 拨测：自有公网服务器 (鉴权 4xx 视为正常)
+  - job_name: "blackbox_http"
+    metrics_path: /probe
+    params:
+      module: [https_2xx_4xx]
+    static_configs:
+      - targets:
+          - https://remote.zhoushicheng.cn
+        labels:
+          probe_layer: "http"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  # DNS 拨测：向 LDNS 解析 baidu.com
+  - job_name: "blackbox_dns"
+    metrics_path: /probe
+    params:
+      module: [dns_a]
+    static_configs:
+      - targets:
+          - 114.114.114.114
+        labels:
+          probe_layer: "dns"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  # IPv6 ICMP 拨测：国内公共 IPv6 对照 / 百度 IPv6 站点
+  # 不使用 blackbox_ 前缀，避免进入 incident-recorder 的 blackbox_.* 轮询。
+  - job_name: "ipv6_probe_icmp"
+    metrics_path: /probe
+    params:
+      module: [icmp_v6]
+    static_configs:
+      - targets: ["alidns-v6-primary"]
+        labels:
+          probe_target: "2400:3200::1"
+          target_name: "阿里DNS IPv6 2400:3200::1"
+          probe_layer: "icmp"
+          ip_family: "ipv6"
+      - targets: ["alidns-v6-secondary"]
+        labels:
+          probe_target: "2400:3200:baba::1"
+          target_name: "阿里DNS IPv6 2400:3200:baba::1"
+          probe_layer: "icmp"
+          ip_family: "ipv6"
+      - targets: ["baidu-ipv6-site"]
+        labels:
+          probe_target: "ipv6.baidu.com"
+          target_name: "百度 IPv6 站点"
+          probe_layer: "icmp"
+          ip_family: "ipv6"
+    relabel_configs:
+      - source_labels: [probe_target]
+        target_label: __param_target
+      - source_labels: [probe_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  # IPv6 DNS 拨测：通过国内 IPv6 resolver 查询自有域名 AAAA
+  - job_name: "ipv6_probe_dns"
+    metrics_path: /probe
+    params:
+      module: [dns_aaaa_ip_zhoushicheng_v6]
+    static_configs:
+      - targets: ["alidns-v6-primary"]
+        labels:
+          probe_target: "2400:3200::1"
+          target_name: "阿里DNS IPv6 2400:3200::1"
+          probe_layer: "dns"
+          ip_family: "ipv6"
+      - targets: ["alidns-v6-secondary"]
+        labels:
+          probe_target: "2400:3200:baba::1"
+          target_name: "阿里DNS IPv6 2400:3200:baba::1"
+          probe_layer: "dns"
+          ip_family: "ipv6"
+      - targets: ["dnspod-v6-primary"]
+        labels:
+          probe_target: "2402:4e00::"
+          target_name: "DNSPod IPv6 2402:4e00::"
+          probe_layer: "dns"
+          ip_family: "ipv6"
+      - targets: ["dnspod-v6-secondary"]
+        labels:
+          probe_target: "2402:4e00:1::"
+          target_name: "DNSPod IPv6 2402:4e00:1::"
+          probe_layer: "dns"
+          ip_family: "ipv6"
+    relabel_configs:
+      - source_labels: [probe_target]
+        target_label: __param_target
+      - source_labels: [probe_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  # IPv6 TCP 443 拨测：自有双栈服务强制 IPv6
+  - job_name: "ipv6_probe_tcp"
+    metrics_path: /probe
+    params:
+      module: [tcp_443_v6]
+    static_configs:
+      - targets: ["owned-ipv6-tcp"]
+        labels:
+          probe_target: "ip.zhoushicheng.cn:443"
+          target_name: "自有 IPv6 TCP ip.zhoushicheng.cn"
+          probe_layer: "tcp"
+          ip_family: "ipv6"
+    relabel_configs:
+      - source_labels: [probe_target]
+        target_label: __param_target
+      - source_labels: [probe_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  # IPv6 HTTPS 拨测：自有服务 + 国内 IPv6 站点
+  - job_name: "ipv6_probe_http"
+    metrics_path: /probe
+    params:
+      module: [https_2xx_4xx_v6]
+    static_configs:
+      - targets: ["owned-ipv6-http"]
+        labels:
+          probe_target: "https://ip.zhoushicheng.cn"
+          target_name: "自有 IPv6 HTTPS ip.zhoushicheng.cn"
+          probe_layer: "http"
+          ip_family: "ipv6"
+      - targets: ["baidu-ipv6-http"]
+        labels:
+          probe_target: "https://ipv6.baidu.com"
+          target_name: "百度 IPv6 HTTPS"
+          probe_layer: "http"
+          ip_family: "ipv6"
+    relabel_configs:
+      - source_labels: [probe_target]
+        target_label: __param_target
+      - source_labels: [probe_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.66.108:9115
+
+  - job_name: "node"
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["192.168.66.108:9100"]
+        labels:
+          host: "rasp"
+      - targets: ["192.168.66.152:9100"]
+        labels:
+          host: "dell"
+      - targets: ["192.168.66.74:9100"]
+        labels:
+          host: "macmini"
+          os: "darwin"

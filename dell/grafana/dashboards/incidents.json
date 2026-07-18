@@ -1,0 +1,1154 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "title": "返回网络质量拨测",
+      "type": "link",
+      "icon": "external link",
+      "url": "/d/home-net-probe?orgId=1",
+      "targetBlank": false,
+      "includeVars": true,
+      "keepTime": true
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Incident 概览",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT 'open' AS metric, count(*) AS value FROM incidents WHERE status = 'down' AND probe_layer IN (${probe_layer:singlequote}) AND target IN (${target:singlequote})\nUNION ALL\nSELECT '24h count' AS metric, count(*) AS value FROM incidents WHERE started_at_epoch >= CAST(strftime('%s','now') AS INTEGER) - 86400 AND probe_layer IN (${probe_layer:singlequote}) AND target IN (${target:singlequote})\nUNION ALL\nSELECT 'avg duration' AS metric, COALESCE(CAST(round(avg(duration_seconds)) AS INTEGER), 0) AS value FROM incidents WHERE status = 'recovered' AND started_at_epoch >= CAST(strftime('%s','now') AS INTEGER) - 86400 AND probe_layer IN (${probe_layer:singlequote}) AND target IN (${target:singlequote})",
+          "queryText": "SELECT 'open' AS metric, count(*) AS value FROM incidents"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center"
+      }
+    },
+    {
+      "id": 3,
+      "type": "table",
+      "title": "最近 Incident（时间倒序）",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT id AS Analyze, started_at AS Started, status AS Status, COALESCE(source, 'prometheus') AS Source, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(failure_layer, probe_layer) AS FailureLayer, COALESCE(NULLIF(failure_reason, ''), error_summary, '') AS FailureReason, COALESCE(duration_seconds, CAST(strftime('%s','now') AS INTEGER) - started_at_epoch) AS DurationSeconds\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY started_at_epoch DESC\nLIMIT 80",
+          "queryText": "SELECT id AS Analyze, started_at AS Started, status AS Status, COALESCE(source, 'prometheus') AS Source, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(failure_layer, probe_layer) AS FailureLayer, COALESCE(NULLIF(failure_reason, ''), error_summary, '') AS FailureReason, COALESCE(duration_seconds, CAST(strftime('%s','now') AS INTEGER) - started_at_epoch) AS DurationSeconds\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY started_at_epoch DESC\nLIMIT 80"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Analyze"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 72
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Analyze",
+                    "url": "/analyze?incident_id=${__value.raw}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Started"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 78
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Target"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 220
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureLayer"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureReason"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 360
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DurationSeconds"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 110
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Started",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": "table",
+      "title": "故障批次归因",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "WITH scoped AS (\n  SELECT *, COALESCE(batch_started_at_epoch, started_at_epoch - (started_at_epoch % 30)) AS batch_epoch, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS target_label\n  FROM incidents\n  WHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\n), flags AS (\n  SELECT batch_epoch, min(started_at_epoch) AS start_epoch, max(COALESCE(recovered_at_epoch, CAST(strftime('%s','now') AS INTEGER))) AS end_epoch, min(started_at) AS start_text, count(*) AS incident_count, count(DISTINCT target) AS affected_targets, replace(group_concat(DISTINCT target_label), ',', ', ') AS targets, replace(group_concat(DISTINCT COALESCE(failure_layer, probe_layer)), ',', ', ') AS failure_layers, replace(group_concat(DISTINCT COALESCE(NULLIF(failure_reason, ''), error_summary, '')), ',', ' | ') AS failure_reasons, max(CASE WHEN target = '192.168.66.1' THEN 1 ELSE 0 END) AS gateway_failed, max(CASE WHEN target = '119.29.29.29' THEN 1 ELSE 0 END) AS public_control_failed, max(CASE WHEN target = '118.31.170.151' THEN 1 ELSE 0 END) AS own_ip_failed, max(CASE WHEN probe_layer = 'dns' THEN 1 ELSE 0 END) AS dns_failed, max(CASE WHEN probe_layer = 'tcp' THEN 1 ELSE 0 END) AS tcp_failed, max(CASE WHEN probe_layer = 'http' THEN 1 ELSE 0 END) AS http_failed, sum(CASE WHEN probe_layer <> 'dns' THEN 1 ELSE 0 END) AS non_dns_count, count(DISTINCT CASE WHEN target IN ('119.29.29.29', '118.31.170.151', 'remote.zhoushicheng.cn:443', 'https://remote.zhoushicheng.cn') THEN target END) AS public_fail_count\n  FROM scoped\n  GROUP BY batch_epoch\n)\nSELECT start_text AS Start, end_epoch - start_epoch AS DurationSeconds, incident_count AS Incidents, failure_layers AS FailureLayers, failure_reasons AS FailureReasons, CASE\n  WHEN gateway_failed = 1 THEN 'LAN/网关/Pi/本地链路异常'\n  WHEN gateway_failed = 0 AND public_control_failed = 1 AND public_fail_count >= 2 THEN 'WAN/ISP 出口异常'\n  WHEN dns_failed = 1 AND non_dns_count = 0 THEN 'DNS 异常'\n  WHEN public_control_failed = 0 AND own_ip_failed = 1 THEN '自有服务器或到服务器链路异常'\n  WHEN own_ip_failed = 0 AND tcp_failed = 1 THEN '端口/防火墙/服务监听异常'\n  WHEN tcp_failed = 0 AND http_failed = 1 THEN 'HTTP/反代/证书/应用异常'\n  ELSE '需查看 Debug 详情'\nEND AS Diagnosis, targets AS Targets\nFROM flags\nORDER BY start_epoch DESC\nLIMIT 80",
+          "queryText": "WITH scoped AS (\n  SELECT *, COALESCE(batch_started_at_epoch, started_at_epoch - (started_at_epoch % 30)) AS batch_epoch, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS target_label\n  FROM incidents\n  WHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\n), flags AS (\n  SELECT batch_epoch, min(started_at_epoch) AS start_epoch, max(COALESCE(recovered_at_epoch, CAST(strftime('%s','now') AS INTEGER))) AS end_epoch, min(started_at) AS start_text, count(*) AS incident_count, count(DISTINCT target) AS affected_targets, replace(group_concat(DISTINCT target_label), ',', ', ') AS targets, replace(group_concat(DISTINCT COALESCE(failure_layer, probe_layer)), ',', ', ') AS failure_layers, replace(group_concat(DISTINCT COALESCE(NULLIF(failure_reason, ''), error_summary, '')), ',', ' | ') AS failure_reasons, max(CASE WHEN target = '192.168.66.1' THEN 1 ELSE 0 END) AS gateway_failed, max(CASE WHEN target = '119.29.29.29' THEN 1 ELSE 0 END) AS public_control_failed, max(CASE WHEN target = '118.31.170.151' THEN 1 ELSE 0 END) AS own_ip_failed, max(CASE WHEN probe_layer = 'dns' THEN 1 ELSE 0 END) AS dns_failed, max(CASE WHEN probe_layer = 'tcp' THEN 1 ELSE 0 END) AS tcp_failed, max(CASE WHEN probe_layer = 'http' THEN 1 ELSE 0 END) AS http_failed, sum(CASE WHEN probe_layer <> 'dns' THEN 1 ELSE 0 END) AS non_dns_count, count(DISTINCT CASE WHEN target IN ('119.29.29.29', '118.31.170.151', 'remote.zhoushicheng.cn:443', 'https://remote.zhoushicheng.cn') THEN target END) AS public_fail_count\n  FROM scoped\n  GROUP BY batch_epoch\n)\nSELECT start_text AS Start, end_epoch - start_epoch AS DurationSeconds, incident_count AS Incidents, failure_layers AS FailureLayers, failure_reasons AS FailureReasons, CASE\n  WHEN gateway_failed = 1 THEN 'LAN/网关/Pi/本地链路异常'\n  WHEN gateway_failed = 0 AND public_control_failed = 1 AND public_fail_count >= 2 THEN 'WAN/ISP 出口异常'\n  WHEN dns_failed = 1 AND non_dns_count = 0 THEN 'DNS 异常'\n  WHEN public_control_failed = 0 AND own_ip_failed = 1 THEN '自有服务器或到服务器链路异常'\n  WHEN own_ip_failed = 0 AND tcp_failed = 1 THEN '端口/防火墙/服务监听异常'\n  WHEN tcp_failed = 0 AND http_failed = 1 THEN 'HTTP/反代/证书/应用异常'\n  ELSE '需查看 Debug 详情'\nEND AS Diagnosis, targets AS Targets\nFROM flags\nORDER BY start_epoch DESC\nLIMIT 80"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 145
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DurationSeconds"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Incidents"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 75
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureLayers"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureReasons"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 260
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Diagnosis"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 220
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Targets"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 250
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Start",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Incident 次数趋势",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [
+            "time"
+          ],
+          "rawQueryText": "SELECT $__unixEpochGroupSeconds(started_at_epoch, 300) AS time, count(*) AS incidents\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nGROUP BY 1\nORDER BY 1",
+          "queryText": "SELECT started_at_epoch AS time, count(*) AS incidents FROM incidents GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 40,
+            "lineWidth": 1
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "table",
+      "title": "按目标统计",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT probe_layer AS Layer, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, count(*) AS Count, sum(COALESCE(duration_seconds, CAST(strftime('%s','now') AS INTEGER) - started_at_epoch)) AS DownSeconds, max(started_at) AS LastStarted\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nGROUP BY probe_layer, target\nORDER BY Count DESC, DownSeconds DESC",
+          "queryText": "SELECT probe_layer AS Layer, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, count(*) AS Count FROM incidents GROUP BY 1, 2"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Layer"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 72
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Target"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 260
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Count"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DownSeconds"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 105
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LastStarted"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "table",
+      "title": "当前未恢复 Incident",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT id AS Analyze, started_at AS Started, COALESCE(source, 'prometheus') AS Source, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(failure_layer, probe_layer) AS FailureLayer, COALESCE(NULLIF(failure_reason, ''), error_summary, '') AS FailureReason, CAST(strftime('%s','now') AS INTEGER) - started_at_epoch AS DurationSeconds\nFROM incidents\nWHERE status = 'down'\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY started_at_epoch DESC\nLIMIT 20",
+          "queryText": "SELECT id AS Analyze, started_at AS Started, COALESCE(source, 'prometheus') AS Source, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(failure_layer, probe_layer) AS FailureLayer, COALESCE(NULLIF(failure_reason, ''), error_summary, '') AS FailureReason, CAST(strftime('%s','now') AS INTEGER) - started_at_epoch AS DurationSeconds\nFROM incidents\nWHERE status = 'down'\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY started_at_epoch DESC\nLIMIT 20"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Analyze"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 72
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Analyze",
+                    "url": "/analyze?incident_id=${__value.raw}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Started"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Target"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 220
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureLayer"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureReason"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 420
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DurationSeconds"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 110
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Started",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": "table",
+      "title": "Incident Debug 详情",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT id AS ID, started_at AS Started, COALESCE(source, 'prometheus') AS Source, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(failure_layer, probe_layer) AS FailureLayer, COALESCE(NULLIF(failure_reason, ''), error_summary, '') AS FailureReason, COALESCE(debug_source, '') AS DebugSource, (SELECT count(*) FROM incident_evidence e WHERE e.incident_id = incidents.id) AS EvidenceEvents, CASE WHEN COALESCE(probe_metrics_json, '') <> '' THEN 'stored' ELSE '-' END AS ProbeMetrics, debug_log AS DebugLog\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY started_at_epoch DESC\nLIMIT 10",
+          "queryText": "SELECT id AS ID, started_at AS Started, COALESCE(source, 'prometheus') AS Source, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(failure_layer, probe_layer) AS FailureLayer, COALESCE(NULLIF(failure_reason, ''), error_summary, '') AS FailureReason, COALESCE(debug_source, '') AS DebugSource, (SELECT count(*) FROM incident_evidence e WHERE e.incident_id = incidents.id) AS EvidenceEvents, CASE WHEN COALESCE(probe_metrics_json, '') <> '' THEN 'stored' ELSE '-' END AS ProbeMetrics, debug_log AS DebugLog\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY started_at_epoch DESC\nLIMIT 10"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Started"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 145
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Target"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureLayer"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 105
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FailureReason"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 230
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DebugSource"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ProbeMetrics"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DebugLog"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 320
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EvidenceEvents"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Started",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": "table",
+      "title": "LLM 分析结果",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT id AS Analyze, started_at AS Started, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(llm_status, 'not_run') AS LLMStatus, COALESCE(llm_diagnosis, '') AS LLMDiagnosis, COALESCE(llm_confidence, '') AS Confidence, COALESCE(NULLIF(llm_summary, ''), llm_error, '') AS Summary\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\n  AND (llm_status IS NOT NULL OR llm_error IS NOT NULL)\nORDER BY COALESCE(llm_completed_at_epoch, llm_requested_at_epoch, started_at_epoch) DESC\nLIMIT 30",
+          "queryText": "SELECT id AS Analyze, started_at AS Started, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, COALESCE(llm_status, 'not_run') AS LLMStatus, COALESCE(llm_diagnosis, '') AS LLMDiagnosis, COALESCE(llm_confidence, '') AS Confidence, COALESCE(NULLIF(llm_summary, ''), llm_error, '') AS Summary\nFROM incidents\nWHERE started_at_epoch >= $__from / 1000\n  AND started_at_epoch < $__to / 1000\n  AND probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\n  AND (llm_status IS NOT NULL OR llm_error IS NOT NULL)\nORDER BY COALESCE(llm_completed_at_epoch, llm_requested_at_epoch, started_at_epoch) DESC\nLIMIT 30"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Analyze"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 72
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Analyze",
+                    "url": "/analyze?incident_id=${__value.raw}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Started"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 145
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Target"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LLMStatus"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LLMDiagnosis"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Confidence"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Summary"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 420
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Started",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": "table",
+      "title": "Recorder 目标快照",
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "incident-sqlite"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "table",
+          "timeColumns": [],
+          "rawQueryText": "SELECT last_seen_at AS LastSeen, probe_layer AS Layer, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, last_success AS LastSuccess\nFROM probe_targets\nWHERE probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY last_seen_at DESC, probe_layer, target",
+          "queryText": "SELECT last_seen_at AS LastSeen, probe_layer AS Layer, CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND AS Target, last_success AS LastSuccess\nFROM probe_targets\nWHERE probe_layer IN (${probe_layer:singlequote})\n  AND target IN (${target:singlequote})\nORDER BY last_seen_at DESC, probe_layer, target"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LastSeen"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Layer"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 72
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Target"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 260
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LastSuccess"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "LastSeen",
+            "desc": true
+          }
+        ]
+      }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "network",
+    "incident",
+    "sqlite"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "probe_layer",
+        "label": "Layer",
+        "type": "query",
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "incident-sqlite"
+        },
+        "query": "SELECT DISTINCT probe_layer AS __text, probe_layer AS __value FROM (SELECT probe_layer FROM probe_targets UNION SELECT probe_layer FROM incidents) ORDER BY probe_layer",
+        "includeAll": true,
+        "multi": true,
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1
+      },
+      {
+        "name": "target",
+        "label": "Target",
+        "type": "query",
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "incident-sqlite"
+        },
+        "query": "WITH all_targets AS (\n  SELECT probe_layer, target, target_name FROM probe_targets\n  UNION ALL\n  SELECT probe_layer, target, target_name FROM incidents\n), dedup AS (\n  SELECT probe_layer, target, max(target_name) AS target_name\n  FROM all_targets\n  GROUP BY probe_layer, target\n)\nSELECT CASE\n  WHEN target = '192.168.66.1' THEN '网关 192.168.66.1'\n  WHEN target = '119.29.29.29' THEN '公网对照 119.29.29.29'\n  WHEN target = '118.31.170.151' THEN '自有服务器IP 118.31.170.151'\n  WHEN target = '114.114.114.114' AND probe_layer = 'dns' THEN 'LDNS 114.114.114.114'\n  WHEN target = 'remote.zhoushicheng.cn:443' THEN '自有服务器 remote.zhoushicheng.cn'\n  WHEN target = 'https://remote.zhoushicheng.cn' THEN '自有服务器 remote.zhoushicheng.cn'\n  ELSE target_name\nEND || ' / ' || probe_layer AS __text, target AS __value\nFROM dedup\nORDER BY probe_layer, target",
+        "includeAll": true,
+        "multi": true,
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "网络 Incident 记录",
+  "uid": "network-incidents",
+  "version": 5,
+  "weekStart": ""
+}

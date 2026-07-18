@@ -1,0 +1,103 @@
+services:
+  blackbox:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_RAW
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    command:
+      - "--config.file=/etc/blackbox_exporter/config.yml"
+      - "--log.prober=debug"
+    mem_limit: 128m
+    memswap_limit: 128m
+    cpus: 0.5
+    oom_score_adj: -500
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:9115/-/healthy"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  pi-incident-agent:
+    build:
+      context: ./pi-incident-agent
+    image: pi-incident-agent:local
+    container_name: pi-incident-agent
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - blackbox
+    volumes:
+      - ./pi-incident-agent:/app:ro
+      - ./data/pi-incident-agent:/data
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/resolv.conf:/host/resolv.conf:ro
+    environment:
+      - SOURCE=rasp
+      - PROBE_CONFIG=/app/probes.json
+      - BLACKBOX_URL=http://127.0.0.1:9115
+      - DELL_INGEST_URL=${DELL_INGEST_URL:-}
+      - DELL_INGEST_URLS=${DELL_INGEST_URLS:-http://192.168.66.152:8088/api/v1/pi-incident-events}
+      - PI_INGEST_TOKEN=${PI_INGEST_TOKEN:-}
+      - SQLITE_PATH=/data/pi-incident-agent.db
+      - INTERVAL_SECONDS=5
+      - HTTP_TIMEOUT_SECONDS=4
+      - DEBUG_TIMEOUT_SECONDS=6
+      - POST_TIMEOUT_SECONDS=6
+      - RING_SECONDS=600
+      - GROUP_WINDOW_SECONDS=30
+      - SNAPSHOT_INTERVAL_SECONDS=${SNAPSHOT_INTERVAL_SECONDS:-0}
+      - UTC_OFFSET_HOURS=8
+      - SYSLOG_UDP_PORT=${SYSLOG_UDP_PORT:-514}
+      - ERX_SSH_HOST=${ERX_SSH_HOST:-}
+      - ERX_SSH_USER=${ERX_SSH_USER:-}
+      - ERX_SSH_KEY_PATH=${ERX_SSH_KEY_PATH:-}
+      - ERX_SSH_TIMEOUT_SECONDS=6
+      - ERX_SSH_COOLDOWN_SECONDS=60
+    mem_limit: 128m
+    memswap_limit: 128m
+    cpus: 0.4
+    oom_score_adj: -400
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/rootfs"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+      - "--collector.cpufreq"
+      - "--collector.thermal_zone"
+      - "--collector.hwmon"
+    mem_limit: 64m
+    memswap_limit: 64m
+    cpus: 0.2
+    oom_score_adj: -300
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

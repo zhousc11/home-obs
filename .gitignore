@@ -1,0 +1,42 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Runtime data
+data/
+**/data/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+
+# Backups
+*.bak
+*.bak-*
+*.bak.*
+*.backup
+*.backup-*
+*.backup.*
+*.codex-backup*
+
+# SSH material
+*ssh_key*
+known_hosts
+*.pem
+*.key
+
+# Python and editor files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

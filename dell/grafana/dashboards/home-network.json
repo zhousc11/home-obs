@@ -1,0 +1,1366 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "builtIn": 1,
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "title": "查看 Incident",
+      "type": "link",
+      "icon": "external link",
+      "tooltip": "查看当前筛选目标的 incident 原文记录",
+      "url": "/d/network-incidents?orgId=1",
+      "tags": [],
+      "asDropdown": false,
+      "targetBlank": false,
+      "includeVars": true,
+      "keepTime": true
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "当前拨测状态",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "instant": true,
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "red"
+              },
+              {
+                "value": 1,
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "1h 可用率",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 10
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(avg_over_time(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}[1h]) * 100, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "instant": true,
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "red"
+              },
+              {
+                "value": 99,
+                "color": "yellow"
+              },
+              {
+                "value": 99.9,
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "24h 可用率",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(avg_over_time(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}[24h]) * 100, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "instant": true,
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "red"
+              },
+              {
+                "value": 99,
+                "color": "yellow"
+              },
+              {
+                "value": 99.9,
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "1h P95 耗时",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(quantile_over_time(0.95, probe_duration_seconds{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}[1h]), \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "instant": true,
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 5,
+      "type": "state-timeline",
+      "title": "可用性时间线",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "alignValue": "left",
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "拨测耗时",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_duration_seconds{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "5m 滚动可用率",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(avg_over_time(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}[5m]) * 100, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "失败样本",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 39
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(1 - probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "red"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "HTTP 状态码",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_http_status_code{job=~\"blackbox_.*\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "points",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 0,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "HTTP 阶段耗时",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 46
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_http_duration_seconds{job=~\"blackbox_.*\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{target_name}} {{phase}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "TLS 证书剩余天数",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 46
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace((probe_ssl_earliest_cert_expiry{job=~\"blackbox_.*\", instance=~\"$target\"} - time()) / 86400, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "d",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "DNS 查询耗时",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 54
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_dns_lookup_time_seconds{job=~\"blackbox_.*\", instance=~\"$target\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "green"
+              },
+              {
+                "value": 80,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "Prometheus 采集健康",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 54
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(up{job=~\"blackbox_.*\"}, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "legendFormat": "{{job}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": 0,
+                "color": "red"
+              },
+              {
+                "value": 1,
+                "color": "green"
+              }
+            ]
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": "table",
+      "title": "当前失败目标",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 62
+      },
+      "targets": [
+        {
+          "expr": "label_replace(label_replace(label_replace(label_replace(label_replace(label_replace(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\", instance=~\"$target\"} == 0, \"target_name\", \"$2\", \"instance\", \"^(https?://)?([^/:]+).*$\"), \"target_name\", \"网关 192.168.66.1\", \"instance\", \"^192[.]168[.]66[.]1$\"), \"target_name\", \"公网对照 119.29.29.29\", \"instance\", \"^119[.]29[.]29[.]29$\"), \"target_name\", \"自有服务器IP 118.31.170.151\", \"instance\", \"^118[.]31[.]170[.]151$\"), \"target_name\", \"LDNS 114.114.114.114\", \"instance\", \"^114[.]114[.]114[.]114$\"), \"target_name\", \"自有服务器 remote.zhoushicheng.cn\", \"instance\", \"^(https://)?remote[.]zhoushicheng[.]cn(:443)?$\")",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{probe_layer}} / {{target_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "target_name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 220
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "instance"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 360
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "job": true
+            },
+            "indexByName": {
+              "instance": 2,
+              "probe_layer": 0,
+              "target_name": 1
+            },
+            "renameByName": {
+              "instance": "Instance",
+              "probe_layer": "Layer",
+              "target_name": "Target"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "network",
+    "blackbox"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "probe_layer",
+        "label": "Layer",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": {
+          "qryType": 1,
+          "query": "label_values(probe_success{job=~\"blackbox_.*\"}, probe_layer)",
+          "refId": "probe_layer"
+        },
+        "includeAll": true,
+        "multi": true,
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1,
+        "hide": 0
+      },
+      {
+        "name": "target",
+        "label": "Target",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": {
+          "qryType": 1,
+          "query": "label_values(probe_success{job=~\"blackbox_.*\", probe_layer=~\"$probe_layer\"}, instance)",
+          "refId": "target"
+        },
+        "includeAll": true,
+        "multi": true,
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1,
+        "hide": 0
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "网络质量拨测",
+  "uid": "home-net-probe",
+  "version": 4,
+  "weekStart": ""
+}

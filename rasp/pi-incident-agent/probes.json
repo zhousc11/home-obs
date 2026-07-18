@@ -1,0 +1,46 @@
+{
+  "probes": [
+    {
+      "job": "blackbox_icmp",
+      "probe_layer": "icmp",
+      "target": "192.168.66.1",
+      "target_name": "gateway 192.168.66.1",
+      "module": "icmp_v4"
+    },
+    {
+      "job": "blackbox_icmp",
+      "probe_layer": "icmp",
+      "target": "119.29.29.29",
+      "target_name": "public control 119.29.29.29",
+      "module": "icmp_v4"
+    },
+    {
+      "job": "blackbox_icmp",
+      "probe_layer": "icmp",
+      "target": "118.31.170.151",
+      "target_name": "owned server ip 118.31.170.151",
+      "module": "icmp_v4"
+    },
+    {
+      "job": "blackbox_tcp",
+      "probe_layer": "tcp",
+      "target": "remote.zhoushicheng.cn:443",
+      "target_name": "owned server tcp remote.zhoushicheng.cn",
+      "module": "tcp_443"
+    },
+    {
+      "job": "blackbox_http",
+      "probe_layer": "http",
+      "target": "https://remote.zhoushicheng.cn",
+      "target_name": "owned server https remote.zhoushicheng.cn",
+      "module": "https_2xx_4xx"
+    },
+    {
+      "job": "blackbox_dns",
+      "probe_layer": "dns",
+      "target": "114.114.114.114",
+      "target_name": "ldns 114.114.114.114",
+      "module": "dns_a"
+    }
+  ]
+}

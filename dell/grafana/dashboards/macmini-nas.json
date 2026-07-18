@@ -1,0 +1,6469 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "lg",
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "expr": "node_os_info{host=\"macmini\"}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "os",
+          "refId": "A"
+        }
+      ],
+      "title": "macOS 系统信息",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "Value #A": true,
+              "__name__": true,
+              "build_id": false,
+              "id": true,
+              "id_like": true,
+              "image_id": true,
+              "image_version": true,
+              "instance": true,
+              "job": true,
+              "pretty_name": true,
+              "variant": true,
+              "variant_id": true,
+              "version_codename": true,
+              "version_id": true
+            },
+            "indexByName": {
+              "host": 0,
+              "name": 1,
+              "version": 2,
+              "build_id": 3
+            },
+            "renameByName": {
+              "host": "主机",
+              "name": "系统",
+              "version": "版本",
+              "build_id": "Build"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "lg",
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "expr": "node_uname_info{host=\"macmini\"}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "kernel",
+          "refId": "A"
+        }
+      ],
+      "title": "Darwin 内核信息",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "Value #A": true,
+              "__name__": true,
+              "domainname": true,
+              "instance": true,
+              "job": true
+            },
+            "indexByName": {
+              "host": 0,
+              "nodename": 1,
+              "sysname": 2,
+              "release": 3,
+              "version": 4,
+              "machine": 5
+            },
+            "renameByName": {
+              "host": "主机",
+              "nodename": "节点名",
+              "sysname": "内核",
+              "release": "内核版本",
+              "version": "内核构建",
+              "machine": "架构"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "离线"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "在线"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "up{job=\"node\",host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "主机状态",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "time() - node_boot_time_seconds{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "运行时间",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "count(node_cpu_seconds_total{host=\"macmini\",mode=\"idle\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU 核心数",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100 * (1 - avg(rate(node_cpu_seconds_total{host=\"macmini\",mode=\"idle\"}[2m])))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Busy",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "node_memory_total_bytes{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "物理内存",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Darwin/XNU 原生压力等级。0 是正常，1/2/3 分别代表 warning/urgent/critical。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "green",
+                  "text": "normal"
+                },
+                "1": {
+                  "color": "yellow",
+                  "text": "warning"
+                },
+                "2": {
+                  "color": "orange",
+                  "text": "urgent"
+                },
+                "3": {
+                  "color": "red",
+                  "text": "critical"
+                },
+                "4": {
+                  "color": "purple",
+                  "text": "special 4"
+                },
+                "5": {
+                  "color": "purple",
+                  "text": "special 5"
+                },
+                "-1": {
+                  "color": "gray",
+                  "text": "N/A"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "node_darwin_memory_pressure_level{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "原生内存压力等级",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 4
+              },
+              {
+                "color": "red",
+                "value": 8
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 12
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "node_load1{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "1m Load",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 12
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100 * node_memory_swap_used_bytes{host=\"macmini\"} / clamp_min(node_memory_swap_total_bytes{host=\"macmini\"},1)",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Swap 使用率",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 12
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100 * (1-node_filesystem_avail_bytes{host=\"macmini\",mountpoint=\"/\"}/node_filesystem_size_bytes{host=\"macmini\",mountpoint=\"/\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "系统盘使用率",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "当前已识别的外接卷数量，按稳定 Volume UUID 统计。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 12
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "sum(mac_disk_volume_present{host=\"macmini\",volume=~\"hdd|hdd4t|hdd6t|dot5\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "外接卷在线数",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 12
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "max(100 * (1-max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"/Volumes/(hdd|hdd4t|hdd6t|dot5)\"})/max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"/Volumes/(hdd|hdd4t|hdd6t|dot5)\"})))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "外接盘最高使用率",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "最近一次 SMART probe 成功读取的外接盘数量；SMART 现在按小时采样。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "sum(max by(volume)(mac_smart_scrape_success{host=\"macmini\",volume=~\"hdd|hdd4t|hdd6t|dot5\"}))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 最近一次可读盘数",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 15,
+      "panels": [],
+      "title": "CPU / Load（Darwin）",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100 * avg by(mode)(rate(node_cpu_seconds_total{host=\"macmini\",mode!=\"idle\"}[2m]))",
+          "legendFormat": "{{mode}}",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU 模式占比",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100 * (1-avg by(cpu)(rate(node_cpu_seconds_total{host=\"macmini\",mode=\"idle\"}[2m])))",
+          "legendFormat": "CPU {{cpu}}",
+          "refId": "A"
+        }
+      ],
+      "title": "每核心 CPU Busy",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "node_load1{host=\"macmini\"}",
+          "legendFormat": "1m",
+          "refId": "A"
+        },
+        {
+          "expr": "node_load5{host=\"macmini\"}",
+          "legendFormat": "5m",
+          "refId": "B"
+        },
+        {
+          "expr": "node_load15{host=\"macmini\"}",
+          "legendFormat": "15m",
+          "refId": "C"
+        }
+      ],
+      "title": "Load Average",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 25
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "node_load1{host=\"macmini\"}/scalar(count(node_cpu_seconds_total{host=\"macmini\",mode=\"idle\"}))",
+          "legendFormat": "1m/core",
+          "refId": "A"
+        },
+        {
+          "expr": "node_load5{host=\"macmini\"}/scalar(count(node_cpu_seconds_total{host=\"macmini\",mode=\"idle\"}))",
+          "legendFormat": "5m/core",
+          "refId": "B"
+        }
+      ],
+      "title": "Load / CPU Core",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "decimals": 1,
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 25
+      },
+      "id": 20,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "expr": "100 * (1-avg by(cpu)(rate(node_cpu_seconds_total{host=\"macmini\",mode=\"idle\"}[2m])))",
+          "legendFormat": "CPU {{cpu}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前每核心 Busy",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 21,
+      "panels": [],
+      "title": "Memory / Swap（macOS）",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Darwin VM 内存分类；这些值用于趋势比较，不做堆叠总量。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 33
+      },
+      "id": 22,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "node_memory_active_bytes{host=\"macmini\"}",
+          "legendFormat": "active",
+          "refId": "A"
+        },
+        {
+          "expr": "node_memory_wired_bytes{host=\"macmini\"}",
+          "legendFormat": "wired",
+          "refId": "B"
+        },
+        {
+          "expr": "node_memory_compressed_bytes{host=\"macmini\"}",
+          "legendFormat": "compressed",
+          "refId": "C"
+        },
+        {
+          "expr": "node_memory_inactive_bytes{host=\"macmini\"}",
+          "legendFormat": "inactive",
+          "refId": "D"
+        },
+        {
+          "expr": "node_memory_free_bytes{host=\"macmini\"}",
+          "legendFormat": "free",
+          "refId": "E"
+        }
+      ],
+      "title": "内存构成",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 33
+      },
+      "id": 23,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100*node_memory_active_bytes{host=\"macmini\"}/node_memory_total_bytes{host=\"macmini\"}",
+          "legendFormat": "active",
+          "refId": "A"
+        },
+        {
+          "expr": "100*node_memory_wired_bytes{host=\"macmini\"}/node_memory_total_bytes{host=\"macmini\"}",
+          "legendFormat": "wired",
+          "refId": "B"
+        },
+        {
+          "expr": "100*node_memory_compressed_bytes{host=\"macmini\"}/node_memory_total_bytes{host=\"macmini\"}",
+          "legendFormat": "compressed",
+          "refId": "C"
+        },
+        {
+          "expr": "100*node_memory_inactive_bytes{host=\"macmini\"}/node_memory_total_bytes{host=\"macmini\"}",
+          "legendFormat": "inactive",
+          "refId": "D"
+        },
+        {
+          "expr": "100*node_memory_free_bytes{host=\"macmini\"}/node_memory_total_bytes{host=\"macmini\"}",
+          "legendFormat": "free",
+          "refId": "E"
+        }
+      ],
+      "title": "内存分类占比",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 41
+      },
+      "id": 24,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100*node_memory_swap_used_bytes{host=\"macmini\"}/clamp_min(node_memory_swap_total_bytes{host=\"macmini\"},1)",
+          "legendFormat": "swap",
+          "refId": "A"
+        }
+      ],
+      "title": "Swap 使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "XNU memorystatus 可用页比例；数值越高，系统可回收内存越充足。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 41
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100*node_darwin_memory_available_ratio{host=\"macmini\"}",
+          "legendFormat": "available",
+          "refId": "A"
+        }
+      ],
+      "title": "可用内存比例",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "归一化压力分数，越高越接近压力区间；它适合看趋势和排序。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 41
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100*node_darwin_memory_pressure_score{host=\"macmini\"}",
+          "legendFormat": "pressure",
+          "refId": "A"
+        }
+      ],
+      "title": "压力分数",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "Bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "id": 27,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(node_memory_swapped_in_bytes_total{host=\"macmini\"}[2m])",
+          "legendFormat": "swap in",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_memory_swapped_out_bytes_total{host=\"macmini\"}[2m])",
+          "legendFormat": "swap out",
+          "refId": "B"
+        }
+      ],
+      "title": "Swap I/O",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "id": 28,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "expr": "{__name__=~\"node_memory_(active|wired|compressed|inactive|free|purgeable)_bytes\",host=\"macmini\"}",
+          "legendFormat": "{{__name__}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前内存分类",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "id": 29,
+      "panels": [],
+      "title": "Memory Pressure Trend",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "level 是离散状态，score 是连续分数；两个一起看最清楚。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 56
+      },
+      "id": 30,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "node_darwin_memory_pressure_level{host=\"macmini\"}",
+          "legendFormat": "level",
+          "refId": "A"
+        },
+        {
+          "expr": "100*node_darwin_memory_pressure_score{host=\"macmini\"}",
+          "legendFormat": "score %",
+          "refId": "B"
+        }
+      ],
+      "title": "内存压力趋势",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "XNU memorystatus 可用页比例；它比 free 字段更贴近系统视角。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 56
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100*node_darwin_memory_available_ratio{host=\"macmini\"}",
+          "legendFormat": "available %",
+          "refId": "A"
+        }
+      ],
+      "title": "可用内存比例趋势",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 63
+      },
+      "id": 32,
+      "panels": [],
+      "title": "Filesystem / APFS / NAS",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "按挂载点聚合，消除拔插/重挂载后旧 device 标签造成的重复线。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "decimals": 1,
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 64
+      },
+      "id": 33,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "expr": "100*(1-max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})/max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}))",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前文件系统使用率",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 64
+      },
+      "id": 34,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "expr": "max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})-max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前文件系统已用空间",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 69
+      },
+      "id": 35,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100*(1-max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})/max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}))",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "文件系统使用率趋势",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "按挂载点聚合，消除旧 /dev/diskXsY 标签残影。purgeable 指标在 macOS 上表示包含可清理内容后的可用空间。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 69
+      },
+      "id": 36,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})",
+          "legendFormat": "{{mountpoint}} available",
+          "refId": "A"
+        },
+        {
+          "expr": "max by(mountpoint)(node_filesystem_purgeable_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})",
+          "legendFormat": "{{mountpoint}} incl. purgeable",
+          "refId": "B"
+        }
+      ],
+      "title": "可用空间与 APFS 可清理空间",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "按稳定 Volume UUID 检测，拔盘后明确变为 0。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "离线"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "在线"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 0,
+        "y": 77
+      },
+      "id": 37,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "mac_disk_volume_present{host=\"macmini\",volume=~\"hdd|hdd4t|hdd6t|dot5\"}",
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "外接卷在线状态",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "设备存在但没有挂载点时显示未挂载。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "未挂载"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "已挂载"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 4,
+        "y": 77
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "mac_disk_volume_mounted{host=\"macmini\",volume=~\"hdd|hdd4t|hdd6t|dot5\"}",
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "外接卷挂载状态",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(error|errors)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 77
+      },
+      "id": 39,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "max by(mountpoint)(node_filesystem_readonly{host=\"macmini\",mountpoint=~\"$mountpoint\"})",
+          "legendFormat": "{{mountpoint}} readonly",
+          "refId": "A"
+        },
+        {
+          "expr": "max by(mountpoint)(node_filesystem_device_error{host=\"macmini\",mountpoint=~\"$mountpoint\"})",
+          "legendFormat": "{{mountpoint}} device_error",
+          "refId": "B"
+        }
+      ],
+      "title": "只读 / 设备错误状态",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 77
+      },
+      "id": 40,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100*(1-max by(mountpoint)(node_filesystem_files_free{host=\"macmini\",mountpoint=~\"$mountpoint\"})/max by(mountpoint)(node_filesystem_files{host=\"macmini\",mountpoint=~\"$mountpoint\"}))",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "文件节点使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "最近一小时可用空间下降速度；按挂载点聚合，空间释放时按 0 展示。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 84
+      },
+      "id": 41,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "max by(mountpoint)(clamp_min(-deriv(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}[1h]),0))",
+          "legendFormat": "{{mountpoint}} consume",
+          "refId": "A"
+        }
+      ],
+      "title": "空间消耗速度（1h）",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "基于最近 6 小时线性趋势，仅作容量参考；按挂载点聚合旧 device 标签。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 84
+      },
+      "id": 42,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "max by(mountpoint)(clamp_min(predict_linear(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}[6h],24*3600),0))",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "按当前趋势预测 24h 后可用空间",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "剩余比例可以横向比较；绝对 GiB/TiB 不在这里用条形比较。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "decimals": 1,
+          "min": 0,
+          "max": 100,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 92
+      },
+      "id": 43,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "expr": "100*max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})/max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前剩余空间比例",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "绝对容量只适合读数，不适合用横向 bar 在不同容量磁盘之间比较。使用率/剩余率才适合横向比较。",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "类型"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "挂载点"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 92
+      },
+      "id": 44,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "expr": "label_replace(max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}),\"capacity_metric\",\"total\",\"mountpoint\",\".*\") or label_replace(max by(mountpoint)(node_filesystem_size_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"})-max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}),\"capacity_metric\",\"used\",\"mountpoint\",\".*\") or label_replace(max by(mountpoint)(node_filesystem_avail_bytes{host=\"macmini\",mountpoint=~\"$mountpoint\"}),\"capacity_metric\",\"available\",\"mountpoint\",\".*\")",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "capacity",
+          "refId": "A"
+        }
+      ],
+      "title": "容量明细（绝对值）",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value #A": false,
+              "__name__": true,
+              "host": true,
+              "instance": true,
+              "job": true,
+              "os": true
+            },
+            "indexByName": {
+              "mountpoint": 0,
+              "capacity_metric": 1,
+              "Value #A": 2
+            },
+            "renameByName": {
+              "mountpoint": "挂载点",
+              "capacity_metric": "类型",
+              "Value #A": "容量"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "只查当前时刻。diskX 是 macOS 动态设备号，拔插后可能变化；稳定身份以 volume、mountpoint 和 Volume UUID 为准。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "已识别"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 92
+      },
+      "id": 45,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"}",
+          "instant": true,
+          "legendFormat": "{{volume}} · {{mountpoint}} · {{smart_status}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前卷状态（稳定命名）",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 99
+      },
+      "id": 46,
+      "panels": [],
+      "title": "Physical Disk I/O",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "按稳定卷身份聚合展示；USB 拔插造成 device 变化后仍保持每个卷一条线。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "Bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 100
+      },
+      "id": 47,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_read_bytes_total{host=\"macmini\"}[2m])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_written_bytes_total{host=\"macmini\"}[2m])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write",
+          "refId": "B"
+        }
+      ],
+      "title": "磁盘吞吐量",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "iops"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 100
+      },
+      "id": 48,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_reads_completed_total{host=\"macmini\"}[2m])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_writes_completed_total{host=\"macmini\"}[2m])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write",
+          "refId": "B"
+        }
+      ],
+      "title": "磁盘 IOPS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 108
+      },
+      "id": 49,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((1000*rate(node_disk_read_time_seconds_total{host=\"macmini\"}[2m])/clamp_min(rate(node_disk_reads_completed_total{host=\"macmini\"}[2m]),0.001)) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((1000*rate(node_disk_write_time_seconds_total{host=\"macmini\"}[2m])/clamp_min(rate(node_disk_writes_completed_total{host=\"macmini\"}[2m]),0.001)) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write",
+          "refId": "B"
+        }
+      ],
+      "title": "平均 I/O 延迟",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 108
+      },
+      "id": 50,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_read_bytes_total{host=\"macmini\"}[2m])/clamp_min(rate(node_disk_reads_completed_total{host=\"macmini\"}[2m]),0.001)) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_written_bytes_total{host=\"macmini\"}[2m])/clamp_min(rate(node_disk_writes_completed_total{host=\"macmini\"}[2m]),0.001)) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write",
+          "refId": "B"
+        }
+      ],
+      "title": "平均请求大小",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(error|errors)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(retry|retries|drop|drops)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 116
+      },
+      "id": 51,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((increase(node_disk_read_errors_total{host=\"macmini\"}[1h])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read errors",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((increase(node_disk_write_errors_total{host=\"macmini\"}[1h])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write errors",
+          "refId": "B"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((increase(node_disk_read_retries_total{host=\"macmini\"}[1h])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read retries",
+          "refId": "C"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((increase(node_disk_write_retries_total{host=\"macmini\"}[1h])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write retries",
+          "refId": "D"
+        }
+      ],
+      "title": "磁盘错误 / 重试增量",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 116
+      },
+      "id": 52,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((node_disk_read_bytes_total{host=\"macmini\"}) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((node_disk_written_bytes_total{host=\"macmini\"}) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write",
+          "refId": "B"
+        }
+      ],
+      "title": "累计读写数据量",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "每秒累计 I/O 服务时间，可能大于 1；它不是 Linux disk busy%。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 124
+      },
+      "id": 53,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_read_time_seconds_total{host=\"macmini\"}[2m])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((rate(node_disk_write_time_seconds_total{host=\"macmini\"}[2m])) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} write",
+          "refId": "B"
+        }
+      ],
+      "title": "I/O 服务时间负载",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 124
+      },
+      "id": 54,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by(volume,mountpoint) ((node_disk_reads_completed_total{host=\"macmini\"}) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} reads",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(volume,mountpoint) ((node_disk_writes_completed_total{host=\"macmini\"}) * on(host,device) group_left(volume,mountpoint,bus,smart_status) mac_disk_volume_info{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}} writes",
+          "refId": "B"
+        }
+      ],
+      "title": "累计完成 I/O 次数",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 132
+      },
+      "id": 55,
+      "panels": [],
+      "title": "SMART / Disk Health（USB 外接盘）",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "SMART 现在按小时采样；这里表示最近一次 SMART probe 是否读到，不等同于健康失败，也不推断为睡眠。按 volume 聚合，隐藏旧 device 标签。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "yellow",
+                  "text": "最近一次读不到"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "可读"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 133
+      },
+      "id": 56,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "max by(volume)(mac_smart_scrape_success{host=\"macmini\",volume=~\"$volume\"})",
+          "instant": true,
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 最近一次可读",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "最近一次 SMART 成功读取时才显示；读不到时会自然断开/变空。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "FAILED"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "PASSED"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 133
+      },
+      "id": 57,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_health_passed{host=\"macmini\",volume=~\"$volume\"}",
+          "instant": true,
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 健康状态",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "距离上次成功读取 SMART 的时间；从未成功读取过的盘不在这里显示。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 86400
+              },
+              {
+                "color": "red",
+                "value": 604800
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 133
+      },
+      "id": 58,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "time()-(mac_smart_last_success_timestamp_seconds{host=\"macmini\",volume=~\"$volume\"} > 0)",
+          "instant": true,
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 数据新鲜度",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "失败"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "正常"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 133
+      },
+      "id": 59,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_collector_success{host=\"macmini\"}",
+          "instant": true,
+          "legendFormat": "collector",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 子采集器",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "1=该次 SMART probe 可读，0=该次读不到；不推断为睡眠。按 volume 聚合，避免 diskX 变化导致同一块盘多条线。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "max": 1,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 138
+      },
+      "id": 60,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "max by(volume)(mac_smart_scrape_success{host=\"macmini\",volume=~\"$volume\"})",
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 可读性历史",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "当前采样读到才有点；读不到时保持空白，避免缓存值伪装成连续观测。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 138
+      },
+      "id": 61,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_temperature_celsius{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}}",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 温度",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "h"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 138
+      },
+      "id": 62,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_power_on_hours{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} power_on_h",
+          "refId": "A"
+        },
+        {
+          "expr": "mac_smart_head_flying_hours{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} head_flying_h",
+          "refId": "B"
+        }
+      ],
+      "title": "SMART 通电寿命",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "优先看 pending/offline_uncorrectable/reallocated。Reallocated events 对老盘也有参考价值。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 145
+      },
+      "id": 63,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_reallocated_sectors{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} reallocated",
+          "refId": "A"
+        },
+        {
+          "expr": "mac_smart_reallocated_events{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} realloc_events",
+          "refId": "B"
+        },
+        {
+          "expr": "mac_smart_current_pending_sectors{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} pending",
+          "refId": "C"
+        },
+        {
+          "expr": "mac_smart_offline_uncorrectable{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} offline_uncorrectable",
+          "refId": "D"
+        }
+      ],
+      "title": "SMART 扇区健康（当前坏块）",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "ATA Error Count 与 Reported Uncorrect 更适合看增长趋势；UDMA CRC 偏线缆/桥接链路，Command Timeout 偏供电/断连/桥接异常。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(error|errors)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(retry|retries|drop|drops)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 145
+      },
+      "id": 64,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_ata_error_count{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} ata_error_log",
+          "refId": "A"
+        },
+        {
+          "expr": "mac_smart_reported_uncorrect{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} reported_uncorrect",
+          "refId": "B"
+        },
+        {
+          "expr": "mac_smart_udma_crc_errors{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} udma_crc",
+          "refId": "C"
+        },
+        {
+          "expr": "mac_smart_command_timeout{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} command_timeout",
+          "refId": "D"
+        },
+        {
+          "expr": "mac_smart_spin_retry_count{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} spin_retry",
+          "refId": "E"
+        },
+        {
+          "expr": "mac_smart_end_to_end_errors{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} end_to_end",
+          "refId": "F"
+        }
+      ],
+      "title": "SMART 错误日志 / 链路 / 命令",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "机械盘可看这一组的增长速度；G-Sense/Power-Off Retract 对移动硬盘、USB 盒子尤其有参考价值。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 153
+      },
+      "id": 65,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_g_sense_errors{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} g_sense",
+          "refId": "A"
+        },
+        {
+          "expr": "mac_smart_high_fly_writes{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} high_fly_writes",
+          "refId": "B"
+        },
+        {
+          "expr": "mac_smart_power_off_retract_count{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} power_off_retract",
+          "refId": "C"
+        },
+        {
+          "expr": "mac_smart_start_stop_count{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} start_stop",
+          "refId": "D"
+        },
+        {
+          "expr": "mac_smart_load_cycle_count{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} load_cycle",
+          "refId": "E"
+        }
+      ],
+      "title": "SMART 机械冲击 / 启停",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "ATA Total LBAs 按 512B 估算。它是设备内部累计工作量，不等同于 macOS node_disk 计数。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 153
+      },
+      "id": 66,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "512*mac_smart_total_lbas_read{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} read",
+          "refId": "A"
+        },
+        {
+          "expr": "512*mac_smart_total_lbas_written{host=\"macmini\",volume=~\"$volume\"}",
+          "legendFormat": "{{volume}} written",
+          "refId": "B"
+        }
+      ],
+      "title": "SMART 读写工作量（估算字节）",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "上次成功读取到 SMART 时的磁盘身份。USB 盒子当前读不到 SMART 时，这里仍保留最近一次成功值。",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 161
+      },
+      "id": 67,
+      "options": {
+        "cellHeight": "lg",
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "expr": "mac_smart_info{host=\"macmini\",volume=~\"$volume\"}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "smart",
+          "refId": "A"
+        }
+      ],
+      "title": "SMART 设备身份（上次成功读取）",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "Value #A": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "indexByName": {
+              "host": 0,
+              "volume": 1,
+              "model": 2,
+              "serial": 3,
+              "firmware": 4
+            },
+            "renameByName": {
+              "host": "主机",
+              "volume": "卷",
+              "model": "型号",
+              "serial": "序列号",
+              "firmware": "固件"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 168
+      },
+      "id": 68,
+      "panels": [],
+      "title": "Network（主要接口）",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 169
+      },
+      "id": 69,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "8*rate(node_network_receive_bytes_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} RX",
+          "refId": "A"
+        },
+        {
+          "expr": "8*rate(node_network_transmit_bytes_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} TX",
+          "refId": "B"
+        }
+      ],
+      "title": "网络吞吐量",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "pps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 169
+      },
+      "id": 70,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_receive_packets_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} RX",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_network_transmit_packets_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} TX",
+          "refId": "B"
+        }
+      ],
+      "title": "网络包速率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Darwin node_exporter 不提供 transmit_drop。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "pps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(error|errors)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(retry|retries|drop|drops)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 177
+      },
+      "id": 71,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_receive_errs_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} RX errors",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_network_transmit_errs_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} TX errors",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(node_network_receive_drop_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} RX drops",
+          "refId": "C"
+        }
+      ],
+      "title": "网络错误 / 接收丢包",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "pps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 177
+      },
+      "id": 72,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_receive_multicast_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} RX multicast",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_network_transmit_multicast_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} TX multicast",
+          "refId": "B"
+        }
+      ],
+      "title": "组播包速率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 185
+      },
+      "id": 73,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_receive_bytes_total{host=\"macmini\",device=~\"$netdev\"}[2m])/clamp_min(rate(node_network_receive_packets_total{host=\"macmini\",device=~\"$netdev\"}[2m]),0.001)",
+          "legendFormat": "{{device}} RX",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_network_transmit_bytes_total{host=\"macmini\",device=~\"$netdev\"}[2m])/clamp_min(rate(node_network_transmit_packets_total{host=\"macmini\",device=~\"$netdev\"}[2m]),0.001)",
+          "legendFormat": "{{device}} TX",
+          "refId": "B"
+        }
+      ],
+      "title": "平均网络包大小",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 185
+      },
+      "id": 74,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_transmit_colls_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} collisions",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_network_noproto_total{host=\"macmini\",device=~\"$netdev\"}[2m])",
+          "legendFormat": "{{device}} noproto",
+          "refId": "B"
+        }
+      ],
+      "title": "冲突 / NoProto",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(write|writes|TX|swap out)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 193
+      },
+      "id": 75,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "node_network_receive_bytes_total{host=\"macmini\",device=~\"$netdev\"}",
+          "legendFormat": "{{device}} RX",
+          "refId": "A"
+        },
+        {
+          "expr": "node_network_transmit_bytes_total{host=\"macmini\",device=~\"$netdev\"}",
+          "legendFormat": "{{device}} TX",
+          "refId": "B"
+        }
+      ],
+      "title": "累计网络流量",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "min": 0,
+          "unit": "bps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 193
+      },
+      "id": 76,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "expr": "8*(rate(node_network_receive_bytes_total{host=\"macmini\",device=~\"$netdev\"}[2m])+rate(node_network_transmit_bytes_total{host=\"macmini\",device=~\"$netdev\"}[2m]))",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "title": "当前接口吞吐量",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 201
+      },
+      "id": 77,
+      "panels": [],
+      "title": "node_exporter / Collection Health",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "thermal 当前在 macOS 上返回 no CPU power status，其余采集器应为 1。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "失败"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "正常"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 202
+      },
+      "id": 78,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "node_scrape_collector_success{host=\"macmini\"}",
+          "legendFormat": "{{collector}}",
+          "refId": "A"
+        }
+      ],
+      "title": "采集器成功状态",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 209
+      },
+      "id": 79,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "node_scrape_collector_duration_seconds{host=\"macmini\"}",
+          "legendFormat": "{{collector}}",
+          "refId": "A"
+        }
+      ],
+      "title": "各采集器耗时",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 209
+      },
+      "id": 80,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "100*rate(process_cpu_seconds_total{host=\"macmini\"}[2m])",
+          "legendFormat": "CPU",
+          "refId": "A"
+        }
+      ],
+      "title": "Exporter CPU",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 209
+      },
+      "id": 81,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "process_resident_memory_bytes{host=\"macmini\"}",
+          "legendFormat": "RSS",
+          "refId": "A"
+        }
+      ],
+      "title": "Exporter RSS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 217
+      },
+      "id": 82,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(promhttp_metric_handler_requests_total{host=\"macmini\"}[2m])",
+          "legendFormat": "HTTP {{code}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(promhttp_metric_handler_errors_total{host=\"macmini\"}[2m])",
+          "legendFormat": "handler {{cause}}",
+          "refId": "B"
+        }
+      ],
+      "title": "Exporter HTTP 抓取请求",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/(read|reads|RX|swap in)/i"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 217
+      },
+      "id": 83,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "go_goroutines{host=\"macmini\"}",
+          "legendFormat": "goroutines",
+          "refId": "A"
+        },
+        {
+          "expr": "go_threads{host=\"macmini\"}",
+          "legendFormat": "threads",
+          "refId": "B"
+        }
+      ],
+      "title": "Go 并发资源",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            }
+          },
+          "min": 0,
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 217
+      },
+      "id": 84,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "go_memstats_heap_alloc_bytes{host=\"macmini\"}",
+          "legendFormat": "heap",
+          "refId": "A"
+        }
+      ],
+      "title": "Go Heap",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 225
+      },
+      "id": 85,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "sum(node_scrape_collector_duration_seconds{host=\"macmini\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Collector 总耗时",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 3,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 225
+      },
+      "id": 86,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "abs(time()-node_time_seconds{host=\"macmini\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "系统时间偏差",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 225
+      },
+      "id": 87,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "process_resident_memory_bytes{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Exporter RSS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 225
+      },
+      "id": 88,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "process_open_fds{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Open FDs",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "失败"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "正常"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 225
+      },
+      "id": 89,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "mac_disk_volume_collector_success{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "磁盘映射采集器",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "green",
+                  "text": "正常"
+                },
+                "1": {
+                  "color": "red",
+                  "text": "错误"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 225
+      },
+      "id": 90,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "node_textfile_scrape_error{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Textfile Error",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 229
+      },
+      "id": 91,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "time()-process_start_time_seconds{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Exporter 运行时间",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 229
+      },
+      "id": 92,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100*rate(process_cpu_seconds_total{host=\"macmini\"}[2m])",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Exporter CPU",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 229
+      },
+      "id": 93,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "100*process_open_fds{host=\"macmini\"}/clamp_min(process_max_fds{host=\"macmini\"},1)",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "FD 使用率",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 120
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 229
+      },
+      "id": 94,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "expr": "time()-mac_disk_volume_collector_timestamp_seconds{host=\"macmini\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "磁盘映射新鲜度",
+      "type": "stat"
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 42,
+  "tags": [
+    "node-exporter",
+    "macos",
+    "darwin",
+    "nas",
+    "detailed"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "volume",
+        "label": "Disk Volume",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": {
+          "qryType": 1,
+          "query": "label_values(mac_disk_volume_info{host=\"macmini\"},volume)",
+          "refId": "volume"
+        },
+        "regex": "/^(system|hdd|hdd4t|hdd6t|dot5)$/",
+        "includeAll": true,
+        "allValue": "system|hdd|hdd4t|hdd6t|dot5",
+        "multi": true,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1,
+        "hide": 0
+      },
+      {
+        "name": "mountpoint",
+        "label": "Filesystem",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": {
+          "qryType": 1,
+          "query": "label_values(node_filesystem_size_bytes{host=\"macmini\"},mountpoint)",
+          "refId": "mountpoint"
+        },
+        "regex": "/^(\\/|\\/Volumes\\/hdd|\\/Volumes\\/hdd4t|\\/Volumes\\/hdd6t|\\/Volumes\\/dot5)$/",
+        "includeAll": true,
+        "allValue": "/|/Volumes/hdd|/Volumes/hdd4t|/Volumes/hdd6t|/Volumes/dot5",
+        "multi": true,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1,
+        "hide": 0
+      },
+      {
+        "name": "netdev",
+        "label": "Network Interface",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": {
+          "qryType": 1,
+          "query": "label_values(node_network_receive_bytes_total{host=\"macmini\"},device)",
+          "refId": "netdev"
+        },
+        "regex": "/^(en0|en1|bridge100|vmenet0)$/",
+        "includeAll": true,
+        "allValue": "en0|en1|bridge100|vmenet0",
+        "multi": true,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [],
+        "refresh": 2,
+        "sort": 1,
+        "hide": 0
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Mac mini NAS 监控（Darwin 详细版）",
+  "uid": "macmini-nas-overview",
+  "version": 12,
+  "weekStart": ""
+}
